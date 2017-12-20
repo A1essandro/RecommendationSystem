@@ -1,0 +1,18 @@
+# Build and package folders
+###################
+build
+dist
+packages
+typings
+.tmp
+bin
+obj
+
+# System folders
+###################
+.DS_Store
+
+# Test reporters
+###################
+**/test/coverage
+report
