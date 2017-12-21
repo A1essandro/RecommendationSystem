@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
@@ -17,11 +18,11 @@ namespace RecommendationSystem
             _clusterDefinder = clusterDefinder;
         }
 
-        public Cluster<TUser> GetCluster(TUser user)
+        public async Task<Cluster<TUser>> GetCluster(TUser user)
         {
             _clusterDefinder.SetMarks(_marks);
 
-            return _clusterDefinder.GetCluster(user);
+            return await _clusterDefinder.GetCluster(user).ConfigureAwait(false);
         }
 
     }

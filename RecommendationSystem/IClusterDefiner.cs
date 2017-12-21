@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
@@ -7,7 +8,7 @@ namespace RecommendationSystem
 
         void SetMarks(IEnumerable<IMark<TUser, TItem>> marks);
 
-        Cluster<TUser> GetCluster(TUser user);
+        Task<Cluster<TUser>> GetCluster(TUser user);
 
     }
 }

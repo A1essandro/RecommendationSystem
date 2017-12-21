@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
@@ -29,7 +30,19 @@ namespace RecommendationSystem
             foreach (var mark in marks) _defineUsersToMarks(mark);
         }
 
-        public Cluster<TUser> GetCluster(TUser user)
+        /// <summary>
+        /// Getting cluster for specified user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns><see cref="Cluster<T>"/></returns>
+        public async Task<Cluster<TUser>> GetCluster(TUser user)
+        {
+            return await Task.Run(() => _calculateCluster(user)).ConfigureAwait(false);
+        }
+
+        #region Private Methods
+
+        private Cluster<TUser> _calculateCluster(TUser user)
         {
             var userComparer = EqualityComparer<TUser>.Default;
             var itemComparer = EqualityComparer<TThing>.Default;
@@ -64,6 +77,8 @@ namespace RecommendationSystem
                 _users.Add(mark.User, new List<IMark<TUser, TThing>> { mark });
             }
         }
+
+        #endregion
 
     }
 }

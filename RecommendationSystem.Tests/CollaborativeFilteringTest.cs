@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RecommendationSystem.Tests
@@ -8,7 +9,7 @@ namespace RecommendationSystem.Tests
     public class CollaborativeFilteringTest
     {
         [Fact]
-        public void CollaborativeFilteringCalculationTest()
+        public async Task CollaborativeFilteringCalculationTest()
         {
             var marks = new List<Mark>()
             {
@@ -33,7 +34,7 @@ namespace RecommendationSystem.Tests
 
             var clusterDefiner = new MarkByMarkClusterDefiner<int, int>();
             var filtering = new CollaborativeFiltering<MarkByMarkClusterDefiner<int, int>, int, int>(marks, clusterDefiner);
-            var cluster = filtering.GetCluster(1);
+            var cluster =  await filtering.GetCluster(1);
             Console.WriteLine(cluster);
 
             Assert.Contains(2, cluster.Items.Values);
