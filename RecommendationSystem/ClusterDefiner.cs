@@ -3,26 +3,27 @@ using System.Linq;
 
 namespace RecommendationSystem
 {
-    public class MarkByMarkClusterDefiner<TUser, TItem> : IClusterDefiner<TUser, TItem>
+    public class MarkByMarkClusterDefiner<TUser, TThing> : IClusterDefiner<TUser, TThing>
     {
 
-        private IEnumerable<IMark<TUser, TItem>> _marks;
-
-        private IDictionary<TUser, IList<IMark<TUser, TItem>>> _users;
-        
+        private IEnumerable<IMark<TUser, TThing>> _marks;
+        private IDictionary<TUser, IList<IMark<TUser, TThing>>> _users;
         private int _maxMark;
 
         int Threshold { get; set; }
 
-        public MarkByMarkClusterDefiner(int threshold = int.MinValue)
+        ushort MaxLength { get; set; }
+
+        public MarkByMarkClusterDefiner(int threshold = int.MinValue, ushort maxLength = ushort.MaxValue)
         {
             Threshold = threshold;
+            MaxLength = maxLength;
         }
 
-        public void SetMarks(IEnumerable<IMark<TUser, TItem>> marks)
+        public void SetMarks(IEnumerable<IMark<TUser, TThing>> marks)
         {
             _marks = marks;
-            _users = new Dictionary<TUser, IList<IMark<TUser, TItem>>>();
+            _users = new Dictionary<TUser, IList<IMark<TUser, TThing>>>();
             _maxMark = _marks.Max(x => x.GetNumber());
 
             foreach (var mark in marks) _defineUsersToMarks(mark);
@@ -31,7 +32,7 @@ namespace RecommendationSystem
         public Cluster<TUser> GetCluster(TUser user)
         {
             var userComparer = EqualityComparer<TUser>.Default;
-            var itemComparer = EqualityComparer<TItem>.Default;
+            var itemComparer = EqualityComparer<TThing>.Default;
             var cluster = new Cluster<TUser>();
 
             foreach (var other in _users.Where(x => !userComparer.Equals(x.Key, user)))
@@ -52,7 +53,7 @@ namespace RecommendationSystem
             return cluster;
         }
 
-        private void _defineUsersToMarks(IMark<TUser, TItem> mark)
+        private void _defineUsersToMarks(IMark<TUser, TThing> mark)
         {
             if (_users.ContainsKey(mark.User))
             {
@@ -60,7 +61,7 @@ namespace RecommendationSystem
             }
             else
             {
-                _users.Add(mark.User, new List<IMark<TUser, TItem>> { mark });
+                _users.Add(mark.User, new List<IMark<TUser, TThing>> { mark });
             }
         }
 
