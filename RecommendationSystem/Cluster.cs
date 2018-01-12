@@ -17,6 +17,7 @@ namespace RecommendationSystem
     {
 
         private SortedList<int, T> _items;
+        private object _lock = new object();
 
         /// <summary>
         /// All items in cluster must be sorted by priority (descending)
@@ -35,7 +36,13 @@ namespace RecommendationSystem
         /// </summary>
         /// <param name="key">Priority of item</param>
         /// <param name="item">Item</param>
-        public void Add(int key, T item) => _items.Add(key, item);
+        public void Add(int key, T item)
+        {
+            lock (_lock)
+            {
+                _items.Add(key, item);
+            }
+        }
 
         private class DuplicateKeyComparer<TKey> : IComparer<TKey>
             where TKey : IComparable

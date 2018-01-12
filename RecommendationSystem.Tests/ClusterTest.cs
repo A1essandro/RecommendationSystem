@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RecommendationSystem.Tests
@@ -20,6 +22,29 @@ namespace RecommendationSystem.Tests
 
             Assert.Equal(cluster.Items.First().Value, value1);
             Assert.Equal(cluster.Items.Last().Value, value2);
+        }
+
+        [Fact]
+        public void MultithreadClusterItemsSortingTest()
+        {
+            var cluster = new Cluster<object>();
+
+            var tasks = new List<Task>();
+            for (var i = 0; i < 10; i++)
+            {
+                Action action = () =>
+                {
+                    for (var j = 0; j < 100; j++)
+                    {
+                        cluster.Add(i, i * j);
+                    }
+                };
+                tasks.Add(Task.Factory.StartNew(action));
+            }
+
+            Task.WaitAll(tasks.ToArray());
+
+            Assert.Equal(0, cluster.Items.First().Value);
         }
 
     }
