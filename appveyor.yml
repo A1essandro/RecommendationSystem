@@ -11,6 +11,7 @@ dotnet_csproj:
 before_build:
 - cmd: >-
     dotnet restore ./RecommendationSystem/RecommendationSystem.csproj
+
     dotnet restore ./RecommendationSystem.Tests/RecommendationSystem.Tests.csproj
 build:
   verbosity: minimal
