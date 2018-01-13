@@ -60,7 +60,8 @@ namespace RecommendationSystem
 
         public bool ContainsKey(int key) => _threadSafeRead(() => _items.ContainsKey(key));
 
-        public IEnumerator<KeyValuePair<int, T>> GetEnumerator() => _threadSafeRead(() => _items.GetEnumerator());
+        public IEnumerator<KeyValuePair<int, T>> GetEnumerator()
+            => new SafeEnumerator<KeyValuePair<int, T>>(_items.GetEnumerator(), _lock);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -115,6 +116,7 @@ namespace RecommendationSystem
             {
                 if (disposing)
                 {
+                    GetEnumerator().Dispose();
                     _lock.Dispose();
                 }
 

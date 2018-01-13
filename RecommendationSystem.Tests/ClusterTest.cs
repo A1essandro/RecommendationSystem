@@ -28,19 +28,19 @@ namespace RecommendationSystem.Tests
         }
 
         [Fact]
-        public void MultithreadClusterItemsSortingTest()
+        public async Task MultithreadClusterItemsSortingTest()
         {
             var tasks = new List<Task>();
             using (var cluster = new RangedCluster<int>())
             {
-                for (var i = 0; i < 10; i++)
+                for (var i = 0; i < 25; i++)
                 {
                     var tempI = i;
                     Action action = () => _workWithClusterData(cluster, tempI);
                     tasks.Add(Task.Factory.StartNew(action));
                 }
 
-                Task.WaitAll(tasks.ToArray());
+                await Task.WhenAll(tasks.ToArray());
 
                 Assert.Equal(0, cluster.First().Value);
             }
@@ -54,7 +54,7 @@ namespace RecommendationSystem.Tests
         private void _workWithClusterData(ICluster<int> cluster, int i)
         {
             int tempItem = 0;
-            for (var j = 0; j < 100; j++)
+            for (var j = 0; j < 2500; j++)
             {
                 cluster.Add(i, i * j);
                 if (cluster.ContainsKey(i + j))
