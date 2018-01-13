@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RecommendationSystem
 {
@@ -14,11 +15,11 @@ namespace RecommendationSystem
     /// with similar preferences of movies.
     /// In clusters, you can combine not only users, but also movies.
     /// </example>
-    public class Cluster<T> : IReadOnlyDictionary<int, T>
+    public class Cluster<T> : IReadOnlyDictionary<int, T>, IDisposable
     {
 
-        private SortedList<int, T> _items;
-        private object _lock = new object();
+        private readonly SortedList<int, T> _items;
+        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public Cluster()
         {
@@ -29,7 +30,7 @@ namespace RecommendationSystem
         {
             get
             {
-                return _items[index];
+                return _threadSafeRead(() => _items[index]);
             }
             set
             {
@@ -44,25 +45,41 @@ namespace RecommendationSystem
         /// <param name="item">Item</param>
         public void Add(int key, T item)
         {
-            lock (_lock)
+            _lock.EnterWriteLock();
+            try
             {
                 _items.Add(key, item);
             }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
-        public IEnumerable<int> Keys => _items.Keys;
+        public IEnumerable<int> Keys => _threadSafeRead(() => _items.Keys);
 
-        public IEnumerable<T> Values => _items.Values;
+        public IEnumerable<T> Values => _threadSafeRead(() => _items.Values);
 
-        public int Count => _items.Count;
+        public int Count => _threadSafeRead(() => _items.Count);
 
-        public bool ContainsKey(int key) => _items.ContainsKey(key);
+        public bool ContainsKey(int key) => _threadSafeRead(() => _items.ContainsKey(key));
 
         public IEnumerator<KeyValuePair<int, T>> GetEnumerator() => _items.GetEnumerator();
 
-        public bool TryGetValue(int key, out T value) => _items.TryGetValue(key, out value);
-
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public bool TryGetValue(int key, out T value)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return _items.TryGetValue(key, out value);
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
 
         #region Private
 
@@ -76,6 +93,42 @@ namespace RecommendationSystem
                 return result == 0 ? -1 : -result;
             }
 
+        }
+
+        private TResult _threadSafeRead<TResult>(Func<TResult> function)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                return function();
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
+        #endregion
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _lock.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion
