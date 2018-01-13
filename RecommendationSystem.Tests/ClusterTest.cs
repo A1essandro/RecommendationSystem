@@ -8,6 +8,7 @@ namespace RecommendationSystem.Tests
 {
     public class ClusterTest
     {
+
         [Fact]
         public void ClusterItemsSortingTest()
         {
@@ -20,8 +21,8 @@ namespace RecommendationSystem.Tests
             cluster.Add(int.MaxValue, new object());
             cluster.Add(0, new object());
 
-            Assert.Equal(cluster.Items.First().Value, value1);
-            Assert.Equal(cluster.Items.Last().Value, value2);
+            Assert.Equal(cluster.First().Value, value1);
+            Assert.Equal(cluster.Last().Value, value2);
         }
 
         [Fact]
@@ -32,11 +33,12 @@ namespace RecommendationSystem.Tests
             var tasks = new List<Task>();
             for (var i = 0; i < 10; i++)
             {
+                var tempI = i;
                 Action action = () =>
                 {
                     for (var j = 0; j < 100; j++)
                     {
-                        cluster.Add(i, i * j);
+                        cluster[i] = tempI * j;
                     }
                 };
                 tasks.Add(Task.Factory.StartNew(action));
@@ -44,7 +46,7 @@ namespace RecommendationSystem.Tests
 
             Task.WaitAll(tasks.ToArray());
 
-            Assert.Equal(0, cluster.Items.First().Value);
+            Assert.Equal(0, cluster.First().Value);
         }
 
     }

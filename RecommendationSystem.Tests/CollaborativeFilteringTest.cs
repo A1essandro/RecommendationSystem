@@ -37,11 +37,11 @@ namespace RecommendationSystem.Tests
             var cluster =  await filtering.GetCluster(1);
             Console.WriteLine(cluster);
 
-            Assert.Contains(2, cluster.Items.Values);
-            Assert.Contains(3, cluster.Items.Values);
-            Assert.DoesNotContain(1, cluster.Items.Values);
-            Assert.Equal(2, cluster.Items.Count);
-            Assert.Equal(2, cluster.Items.First().Value);
+            Assert.Contains(2, cluster.Values);
+            Assert.Contains(3, cluster.Values);
+            Assert.DoesNotContain(1, cluster.Values);
+            Assert.Equal(2, cluster.Count);
+            Assert.Equal(2, cluster.First().Value);
         }
 
         private class Mark : IMark<int, int>
