@@ -1,0 +1,1 @@
+master branch status: [![Build status](https://ci.appveyor.com/api/projects/status/uuq81k24lp1bj0uq/branch/master?svg=true)](https://ci.appveyor.com/project/A1essandro/recommendationsystem/branch/master)

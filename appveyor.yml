@@ -1,0 +1,16 @@
+version: 0.0.{build}
+image: Previous Visual Studio 2017
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+before_build:
+- cmd: >-
+    dotnet restore ./RecommendationSystem/RecommendationSystem.csproj
+    dotnet restore ./RecommendationSystem.Tests/RecommendationSystem.Tests.csproj
+build:
+  verbosity: minimal
