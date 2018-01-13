@@ -7,7 +7,7 @@ namespace RecommendationSystem
 {
 
     /// <summary>
-    /// Cluster is a set of items, sorted by priority.
+    /// Cluster sorted by priority.
     /// </summary>
     /// <example>
     /// Suppose we have users who rate the movies.
@@ -60,7 +60,7 @@ namespace RecommendationSystem
 
         public bool ContainsKey(int key) => _threadSafeRead(() => _items.ContainsKey(key));
 
-        public IEnumerator<KeyValuePair<int, T>> GetEnumerator() => _items.GetEnumerator();
+        public IEnumerator<KeyValuePair<int, T>> GetEnumerator() => _threadSafeRead(() => _items.GetEnumerator());
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
