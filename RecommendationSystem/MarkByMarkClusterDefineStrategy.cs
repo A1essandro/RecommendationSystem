@@ -39,18 +39,18 @@ namespace RecommendationSystem
         /// </summary>
         /// <param name="user"></param>
         /// <returns><see cref="Cluster<T>"/></returns>
-        public async Task<Cluster<TUser>> GetCluster(TUser user)
+        public async Task<ICluster<TUser>> GetCluster(TUser user)
         {
             return await Task.Run(() => _calculateCluster(user)).ConfigureAwait(false);
         }
 
         #region Private Methods
 
-        private Cluster<TUser> _calculateCluster(TUser user)
+        private RangedCluster<TUser> _calculateCluster(TUser user)
         {
             var userComparer = EqualityComparer<TUser>.Default;
             var itemComparer = EqualityComparer<TThing>.Default;
-            var cluster = new Cluster<TUser>();
+            var cluster = new RangedCluster<TUser>();
 
             foreach (var other in _users.Where(x => !userComparer.Equals(x.Key, user)))
             {

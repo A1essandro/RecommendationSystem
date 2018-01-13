@@ -8,7 +8,7 @@ namespace RecommendationSystem
 
         void SetMarks(IEnumerable<IMark<TUser, TItem>> marks);
 
-        Task<Cluster<TUser>> GetCluster(TUser user);
+        Task<ICluster<TUser>> GetCluster(TUser user);
 
     }
 }

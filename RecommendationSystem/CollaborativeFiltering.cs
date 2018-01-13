@@ -18,7 +18,7 @@ namespace RecommendationSystem
             _clusterDefinder = clusterDefinder;
         }
 
-        public async Task<Cluster<TUser>> GetCluster(TUser user)
+        public async Task<ICluster<TUser>> GetCluster(TUser user)
         {
             _clusterDefinder.SetMarks(_marks);
 

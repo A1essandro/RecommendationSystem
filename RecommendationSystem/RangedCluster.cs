@@ -15,13 +15,13 @@ namespace RecommendationSystem
     /// with similar preferences of movies.
     /// In clusters, you can combine not only users, but also movies.
     /// </example>
-    public class Cluster<T> : IReadOnlyDictionary<int, T>, IDisposable
+    public class RangedCluster<T> : ICluster<T>, IDisposable
     {
 
         private readonly SortedList<int, T> _items;
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
-        public Cluster()
+        public RangedCluster()
         {
             _items = new SortedList<int, T>(new DuplicateKeyComparer<int>());
         }
@@ -31,10 +31,6 @@ namespace RecommendationSystem
             get
             {
                 return _threadSafeRead(() => _items[index]);
-            }
-            set
-            {
-                Add(index, value);
             }
         }
 

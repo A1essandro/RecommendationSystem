@@ -15,7 +15,7 @@ namespace RecommendationSystem.Tests
             var value1 = "Object1";
             var value2 = "Object2";
 
-            using (var cluster = new Cluster<object>())
+            using (var cluster = new RangedCluster<object>())
             {
                 cluster.Add(int.MinValue, value2);
                 cluster.Add(int.MaxValue, value1);
@@ -31,7 +31,7 @@ namespace RecommendationSystem.Tests
         public void MultithreadClusterItemsSortingTest()
         {
             var tasks = new List<Task>();
-            using (var cluster = new Cluster<object>())
+            using (var cluster = new RangedCluster<object>())
             {
                 for (var i = 0; i < 10; i++)
                 {
@@ -40,7 +40,7 @@ namespace RecommendationSystem.Tests
                     {
                         for (var j = 0; j < 100; j++)
                         {
-                            cluster[i] = tempI * j;
+                            cluster.Add(i, tempI * j);
                             if (cluster.ContainsKey(tempI))
                             {
                                 var temp = cluster[tempI];
