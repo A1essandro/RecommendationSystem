@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace RecommendationSystem
@@ -19,7 +20,7 @@ namespace RecommendationSystem
     {
 
         private readonly SortedList<int, T> _items;
-        private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+        public readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public RangedCluster()
         {
@@ -60,8 +61,7 @@ namespace RecommendationSystem
 
         public bool ContainsKey(int key) => _threadSafeRead(() => _items.ContainsKey(key));
 
-        public IEnumerator<KeyValuePair<int, T>> GetEnumerator()
-            => new SafeEnumerator<KeyValuePair<int, T>>(_items.GetEnumerator(), _lock);
+        public IEnumerator<KeyValuePair<int, T>> GetEnumerator() => _threadSafeRead(() => _items.ToList().GetEnumerator());
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
