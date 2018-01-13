@@ -32,8 +32,8 @@ namespace RecommendationSystem.Tests
                 new Mark(3, 6, 1),
             };
 
-            var clusterDefiner = new MarkByMarkClusterDefiner<int, int>();
-            var filtering = new CollaborativeFiltering<MarkByMarkClusterDefiner<int, int>, int, int>(marks, clusterDefiner);
+            var clusterDefiner = new MarkByMarkClusterDefineStrategy<int, int>();
+            var filtering = new CollaborativeFiltering<MarkByMarkClusterDefineStrategy<int, int>, int, int>(marks, clusterDefiner);
             var cluster =  await filtering.GetCluster(1);
             Console.WriteLine(cluster);
 

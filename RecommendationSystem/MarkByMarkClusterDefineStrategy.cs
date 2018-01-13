@@ -4,18 +4,22 @@ using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
-    public class MarkByMarkClusterDefiner<TUser, TThing> : IClusterDefiner<TUser, TThing>
+    public class MarkByMarkClusterDefineStrategy<TUser, TThing> : IClusterDefineStrategy<TUser, TThing>
     {
+
+        #region Private fields
 
         private IEnumerable<IMark<TUser, TThing>> _marks;
         private IDictionary<TUser, IList<IMark<TUser, TThing>>> _users;
         private int _maxMark;
 
-        int Threshold { get; set; }
+        #endregion
 
-        ushort MaxLength { get; set; }
+        public int Threshold { get; set; }
 
-        public MarkByMarkClusterDefiner(int threshold = int.MinValue, ushort maxLength = ushort.MaxValue)
+        public ushort MaxLength { get; set; }
+
+        public MarkByMarkClusterDefineStrategy(int threshold = int.MinValue, ushort maxLength = ushort.MaxValue)
         {
             Threshold = threshold;
             MaxLength = maxLength;

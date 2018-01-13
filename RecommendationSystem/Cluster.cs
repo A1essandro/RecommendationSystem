@@ -55,7 +55,7 @@ namespace RecommendationSystem
         public IEnumerable<T> Values => _items.Values;
 
         public int Count => _items.Count;
-        
+
         public bool ContainsKey(int key) => _items.ContainsKey(key);
 
         public IEnumerator<KeyValuePair<int, T>> GetEnumerator() => _items.GetEnumerator();
@@ -63,6 +63,8 @@ namespace RecommendationSystem
         public bool TryGetValue(int key, out T value) => _items.TryGetValue(key, out value);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        #region Private
 
         private class DuplicateKeyComparer<TKey> : IComparer<TKey>
             where TKey : IComparable
@@ -75,6 +77,8 @@ namespace RecommendationSystem
             }
 
         }
+
+        #endregion
 
     }
 }

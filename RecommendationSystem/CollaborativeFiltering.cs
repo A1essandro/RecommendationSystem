@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace RecommendationSystem
 {
     public class CollaborativeFiltering<TClusterDefinder, TUser, TThing>
-        where TClusterDefinder : IClusterDefiner<TUser, TThing>
+        where TClusterDefinder : IClusterDefineStrategy<TUser, TThing>
     {
 
         private IEnumerable<IMark<TUser, TThing>> _marks;
