@@ -3,12 +3,23 @@ using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
-    public interface IClusterStrategy<TUser, TItem>
+
+    public interface IClusterStrategy<TThing>
     {
 
-        void SetMarks(IEnumerable<IMark<TUser, TItem>> marks);
+        void SetMarks(IEnumerable<IMark<TThing>> marks);
+
+        Task<ICluster<TThing>> GetCluster(TThing user);
+
+    }
+    
+    public interface IClusterStrategy<TUser, TThing>
+    {
+
+        void SetMarks(IEnumerable<IMark<TUser, TThing>> marks);
 
         Task<ICluster<TUser>> GetCluster(TUser user);
 
     }
+
 }

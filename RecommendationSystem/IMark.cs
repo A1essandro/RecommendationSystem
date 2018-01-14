@@ -1,13 +1,8 @@
 namespace RecommendationSystem
 {
-    public interface IMark<TUser, TThing>
-    {
 
-        /// <summary>
-        /// User who rated
-        /// </summary>
-        /// <returns></returns>
-        TUser User { get; }
+    public interface IMark<TThing>
+    {
 
         /// <summary>
         /// Thing of evaluate
@@ -37,7 +32,18 @@ namespace RecommendationSystem
         /// </example>
         /// <param name="another"></param>
         /// <returns></returns>
-        ushort GetDifference(IMark<TUser, TThing> another);
+        ushort GetDifference(IMark<TThing> another);
+
+    }
+
+    public interface IMark<TUser, TThing> : IMark<TThing>
+    {
+
+        /// <summary>
+        /// User who rated
+        /// </summary>
+        /// <returns></returns>
+        TUser User { get; }
 
     }
 }
