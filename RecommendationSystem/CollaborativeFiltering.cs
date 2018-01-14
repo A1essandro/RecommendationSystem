@@ -9,9 +9,9 @@ namespace RecommendationSystem
 
         private IEnumerable<IMark<TUser, TThing>> _marks;
 
-        private IClusterDefineStrategy<TUser, TThing> _clusterDefinder;
+        private IClusterStrategy<TUser, TThing> _clusterDefinder;
 
-        public CollaborativeFiltering(IEnumerable<IMark<TUser, TThing>> marks, IClusterDefineStrategy<TUser, TThing> clusterDefinder)
+        public CollaborativeFiltering(IEnumerable<IMark<TUser, TThing>> marks, IClusterStrategy<TUser, TThing> clusterDefinder)
         {
             _marks = marks;
             _clusterDefinder = clusterDefinder;

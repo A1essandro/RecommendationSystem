@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
-    public interface IClusterDefineStrategy<TUser, TItem>
+    public interface IClusterStrategy<TUser, TItem>
     {
 
         void SetMarks(IEnumerable<IMark<TUser, TItem>> marks);

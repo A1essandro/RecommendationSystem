@@ -32,7 +32,7 @@ namespace RecommendationSystem.Tests
                 new Mark(3, 6, 1),
             };
 
-            var clusterDefiner = new MarkByMarkClusterDefineStrategy<int, int>();
+            var clusterDefiner = new MinMarkDifferenceClusterStrategy<int, int>();
             var filtering = new CollaborativeFiltering<int, int>(marks, clusterDefiner);
             var cluster =  await filtering.GetCluster(1);
             Console.WriteLine(cluster);

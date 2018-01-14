@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
-    public class MarkByMarkClusterDefineStrategy<TUser, TThing> : IClusterDefineStrategy<TUser, TThing>
+    public class MinMarkDifferenceClusterStrategy<TUser, TThing> : IClusterStrategy<TUser, TThing>
     {
 
         #region Private fields
@@ -19,7 +19,7 @@ namespace RecommendationSystem
 
         public ushort MaxLength { get; set; }
 
-        public MarkByMarkClusterDefineStrategy(int threshold = int.MinValue, ushort maxLength = ushort.MaxValue)
+        public MinMarkDifferenceClusterStrategy(int threshold = int.MinValue, ushort maxLength = ushort.MaxValue)
         {
             Threshold = threshold;
             MaxLength = maxLength;
