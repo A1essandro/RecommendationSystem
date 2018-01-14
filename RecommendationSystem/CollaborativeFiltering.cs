@@ -4,15 +4,14 @@ using System.Threading.Tasks;
 
 namespace RecommendationSystem
 {
-    public class CollaborativeFiltering<TClusterDefinder, TUser, TThing>
-        where TClusterDefinder : IClusterDefineStrategy<TUser, TThing>
+    public class CollaborativeFiltering<TUser, TThing>
     {
 
         private IEnumerable<IMark<TUser, TThing>> _marks;
 
-        private TClusterDefinder _clusterDefinder;
+        private IClusterDefineStrategy<TUser, TThing> _clusterDefinder;
 
-        public CollaborativeFiltering(IEnumerable<IMark<TUser, TThing>> marks, TClusterDefinder clusterDefinder)
+        public CollaborativeFiltering(IEnumerable<IMark<TUser, TThing>> marks, IClusterDefineStrategy<TUser, TThing> clusterDefinder)
         {
             _marks = marks;
             _clusterDefinder = clusterDefinder;

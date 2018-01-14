@@ -33,7 +33,7 @@ namespace RecommendationSystem.Tests
             };
 
             var clusterDefiner = new MarkByMarkClusterDefineStrategy<int, int>();
-            var filtering = new CollaborativeFiltering<MarkByMarkClusterDefineStrategy<int, int>, int, int>(marks, clusterDefiner);
+            var filtering = new CollaborativeFiltering<int, int>(marks, clusterDefiner);
             var cluster =  await filtering.GetCluster(1);
             Console.WriteLine(cluster);
 
