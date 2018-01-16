@@ -59,9 +59,10 @@ namespace RecommendationSystem.Tests
                 _value = value;
             }
 
-            public ushort GetDifference(IMark<int, int> another) => (ushort)Math.Abs(another.GetNumber() - GetNumber());
+            public ushort GetDifference(IMark<int> another) => (ushort)Math.Abs(another.GetNumber() - GetNumber());
 
             public int GetNumber() => _value;
+
         }
 
     }

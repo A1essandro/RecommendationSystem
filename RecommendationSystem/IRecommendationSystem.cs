@@ -22,9 +22,18 @@ namespace RecommendationSystem
     public interface IContentBasedRecommendationSystem<TThing> : IRecommendationSystem<TThing>
     {
 
+        void SetMarks(IEnumerable<KeyValuePair<TThing, int>> marks);
+
         void SetMarks(IEnumerable<IMark<TThing>> marks);
 
         Task<ICluster<TThing>> GetCluster(IClusterStrategy<TThing> strategy);
+
+    }
+
+    public interface IKeywordsBasedRecommendationSystem<TThing> : IContentBasedRecommendationSystem<TThing>
+    {
+
+        void SetKeywords(IEnumerable<KeyValuePair<TThing, IEnumerable<string>>> keywordsByThings);
 
     }
 
